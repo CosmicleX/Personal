@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANAPHY Reviewer - TATBILB Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        .active-tab { border-bottom: 2px solid #ec4899; color: #ec4899; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body class="bg-pink-50 text-gray-800 font-sans p-4 md:p-8">
+    <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-xl overflow-hidden">
+        
+        <!-- Header -->
+        <div class="bg-pink-500 text-white p-6">
+            <h1 class="text-3xl font-bold">ANAPHY Cram Guide</h1>
+            <p class="text-pink-100 mt-2">Nursing Foundation • University of Baguio</p>
+            <p class="text-sm italic mt-1 pb-2 border-b border-pink-400">Theme: "To All the Boys I've Loved Before" Analogies</p>
+            <p class="text-xs mt-2 text-pink-50">If you are running out of time, read the pink "Cram Concept" boxes first!</p>
+        </div>
+        
+        <!-- Tab Navigation -->
+        <div class="flex border-b bg-gray-50 overflow-x-auto whitespace-nowrap">
+            <button class="tab-btn active-tab px-6 py-3 font-semibold text-gray-600 hover:text-pink-500 focus:outline-none transition-colors" onclick="openTab(event, 'intro')">Intro & Terms</button>
+            <button class="tab-btn px-6 py-3 font-semibold text-gray-600 hover:text-pink-500 focus:outline-none transition-colors" onclick="openTab(event, 'systems')">Systems & Tissues</button>
+            <button class="tab-btn px-6 py-3 font-semibold text-gray-600 hover:text-pink-500 focus:outline-none transition-colors" onclick="openTab(event, 'integumentary')">Integumentary</button>
+            <button class="tab-btn px-6 py-3 font-semibold text-gray-600 hover:text-pink-500 focus:outline-none transition-colors" onclick="openTab(event, 'skeletal')">Skeletal</button>
+            <button class="tab-btn px-6 py-3 font-semibold text-gray-600 hover:text-pink-500 focus:outline-none transition-colors" onclick="openTab(event, 'medical')">Med Terms & Procedures</button>
+        </div>
+
+        <!-- Content Area -->
+        <div class="p-6 h-[600px] overflow-y-auto bg-white">
+            
+            <!-- TAB 1: INTRO -->
+            <div id="intro" class="tab-content active">
+                <div class="bg-pink-50 p-4 rounded-lg border border-pink-200 mb-6 shadow-sm">
+                    <h3 class="font-bold text-pink-600 mb-2 flex items-center">💌 Cram Concept: Anatomy vs. Physiology</h3>
+                    <p class="text-sm"><strong>Anatomy</strong> is like the physical letters Lara Jean wrote and the teal hatbox she keeps them in (it is just the structure and the parts). <strong>Physiology</strong> is how those letters actually got mailed out and caused a massive chain reaction in her love life (it is how the parts actually function and change things).</p>
+                </div>
+
+                <h3 class="text-xl font-bold text-gray-800 mb-2 border-b pb-1">Basic Concepts</h3>
+                <ul class="list-disc pl-5 space-y-1 text-sm mb-6 text-gray-700">
+                    <li><strong>Gross / Macroscopic Anatomy:</strong> can be seen by the naked eye (larger structures).</li>
+                    <li><strong>Surface Anatomy:</strong> overlying skin surface anatomy that focuses on external features.</li>
+                    <li><strong>Microscopic Anatomy:</strong> cannot be seen by naked eye; includes cytology (cells) and histology (tissues).</li>
+                    <li><strong>Developmental Anatomy:</strong> structural changes throughout the life span.</li>
+                    <li><strong>Pathophysiology:</strong> study of functional changes associated with disease and aging.</li>
+                </ul>
+
+                <h3 class="text-xl font-bold text-gray-800 mb-2 border-b pb-1">Anatomical Positions and Planes</h3>
+                <ul class="list-disc pl-5 space-y-1 text-sm mb-6 text-gray-700">
+                    <li><strong>Standard Position:</strong> stand erect, feet together, eyes forward, hands on the side, arms towards the front.</li>
+                    <li><strong>Prone Position:</strong> faced-down.</li>
+                    <li><strong>Supine Position:</strong> faced-up.</li>
+                    <li><strong>Sagittal plane:</strong> divides into left and right.</li>
+                    <li><strong>Frontal (Coronal) plane:</strong> divides into front and back.</li>
+                    <li><strong>Transverse plane:</strong> divides into superior (top) and inferior (bottom).</li>
+                </ul>
+
+                <h3 class="text-xl font-bold text-gray-800 mb-2 border-b pb-1">Directional Terms</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-700">
+                    <div><strong>Superior (cranial):</strong> towards the head.</div>
+                    <div><strong>Inferior (caudal):</strong> towards the lower part.</div>
+                    <div><strong>Anterior (ventral):</strong> at the front.</div>
+                    <div><strong>Posterior (dorsal):</strong> at the back.</div>
+                    <div><strong>Medial:</strong> toward the middle.</div>
+                    <div><strong>Lateral:</strong> outer side / away from medial.</div>
+                    <div><strong>Proximal:</strong> close to the origin of the body.</div>
+                    <div><strong>Distal:</strong> farther from the origin.</div>
+                    <div><strong>Superficial:</strong> towards surface of the body.</div>
+                    <div><strong>Deep (internal):</strong> away from surface.</div>
+                    <div><strong>Ipsilateral:</strong> on the same side.</div>
+                    <div><strong>Contralateral:</strong> opposite side.</div>
+                </div>
+            </div>
+
+            <!-- TAB 2: SYSTEMS & TISSUES -->
+            <div id="systems" class="tab-content">
+                <div class="bg-pink-50 p-4 rounded-lg border border-pink-200 mb-6 shadow-sm">
+                    <h3 class="font-bold text-pink-600 mb-2 flex items-center">🚲 Cram Concept: The 11 Body Systems</h3>
+                    <p class="text-sm">The body systems are like everyone in Lara Jean's life working together. The <strong>Integumentary system</strong> is like Peter Kavinsky putting his arm around her to protect her from school drama. The <strong>Cardiovascular system</strong> is like Kitty riding her bike to deliver the letters across town. The <strong>Nervous system</strong> is the communication network of all the gossiping students.</p>
+                </div>
+
+                <h3 class="text-xl font-bold text-gray-800 mb-2 border-b pb-1">The 11 Organ Systems</h3>
+                <ul class="list-disc pl-5 space-y-1 text-sm mb-6 text-gray-700">
+                    <li><strong>Integumentary:</strong> provides protection, regulates temp, prevents water loss, helps produce vitamin D.</li>
+                    <li><strong>Skeletal:</strong> protection/support, mineral storage, production of blood cells.</li>
+                    <li><strong>Muscular:</strong> produces movement and body heat, maintains posture.</li>
+                    <li><strong>Lymphatic:</strong> removes foreign substances, combats diseases, maintains tissue fluid balance, absorbs dietary fats.</li>
+                    <li><strong>Respiratory:</strong> exchange of oxygen and carbon dioxide, regulates blood pH.</li>
+                    <li><strong>Digestive:</strong> mechanical and chemical digestion, absorption, elimination.</li>
+                    <li><strong>Endocrine:</strong> influences metabolism, growth, and reproduction.</li>
+                    <li><strong>Cardiovascular:</strong> transports nutrients, wastes, gasses, hormones; plays a role in immune response.</li>
+                    <li><strong>Urinary:</strong> removes wastes, regulates blood pH, ion balance, and water balance.</li>
+                    <li><strong>Female Reproductive:</strong> produces oocytes, milk, and hormones.</li>
+                    <li><strong>Male Reproductive:</strong> produces/transfers sperm cells and produces hormones.</li>
+                </ul>
+
+                <h3 class="text-xl font-bold text-gray-800 mb-2 border-b pb-1">Life Characteristics & Needs</h3>
+                <p class="text-sm text-gray-700 mb-6"><strong>Characteristics:</strong> Organization / Metabolism / Responsiveness / Growth / Development / Reproduction.<br>
+                <strong>Survival Needs:</strong> Nutrients (carbs, proteins, lipids, vitamins, minerals), Oxygen, Water (60 to 80 percent of body weight), Stable Body Temperature (37 Celsius / 98 Fahrenheit), and Atmospheric Pressure.</p>
+
+                <div class="bg-pink-50 p-4 rounded-lg border border-pink-200 mb-6 shadow-sm">
+                    <h3 class="font-bold text-pink-600 mb-2 flex items-center">🏃 Cram Concept: Muscle Movements</h3>
+                    <p class="text-sm"><strong>Flexion</strong> is like pulling a letter close to your chest to hide it (decreasing the angle). <strong>Extension</strong> is reaching out to hand the letter to someone (increasing the angle). <strong>Abduction</strong> is stepping away from the awkward situation, and <strong>Adduction</strong> is coming back together.</p>
+                </div>
+
+                <h3 class="text-xl font-bold text-gray-800 mb-2 border-b pb-1">4 Primary Tissues</h3>
+                <ul class="list-disc pl-5 space-y-1 text-sm mb-6 text-gray-700">
+                    <li><strong>Epithelial:</strong> covers and lines.</li>
+                    <li><strong>Connective:</strong> connects and supports. Includes Elastic Cartilage (external ear), Fibrocartilage (cushion discs in vertebrae), Dense Connective (tendons/ligaments), Loose Connective (Areolar, Adipose for fat storage, Reticular), and Blood.</li>
+                    <li><strong>Muscle:</strong> skeletal (voluntary/attached to bone), cardiac (involuntary/heart), smooth (involuntary/hollow organs/peristalsis).</li>
+                    <li><strong>Nervous:</strong> receives and conducts impulses.</li>
+                </ul>
+
+                <h3 class="text-xl font-bold text-gray-800 mb-2 border-b pb-1">Types of Body Movements</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-700">
+                    <div><strong>Flexion:</strong> decreases joint angle.</div>
+                    <div><strong>Extension:</strong> increases joint angle.</div>
+                    <div><strong>Rotation:</strong> movement around longitudinal axis.</div>
+                    <div><strong>Circumduction:</strong> moves in a circle.</div>
+                    <div><strong>Abduction:</strong> limb away from midline.</div>
+                    <div><strong>Adduction:</strong> limb towards midline.</div>
+                    <div><strong>Dorsiflexion:</strong> lifting foot to shin.</div>
+                    <div><strong>Plantar Flexion:</strong> pointing toes away.</div>
+                    <div><strong>Inversion:</strong> sole of foot medially.</div>
+                    <div><strong>Eversion:</strong> sole of foot laterally.</div>
+                    <div><strong>Supination:</strong> palm faces anteriorly.</div>
+                    <div><strong>Pronation:</strong> palm faces posteriorly.</div>
+                    <div class="col-span-2"><strong>Opposition:</strong> moving thumb to touch tips of fingers.</div>
+                </div>
+            </div>
+
+            <!-- TAB 3: INTEGUMENTARY -->
+            <div id="integumentary" class="tab-content">
+                <div class="bg-pink-50 p-4 rounded-lg border border-pink-200 mb-6 shadow-sm">
+                    <h3 class="font-bold text-pink-600 mb-2 flex items-center">📝 Cram Concept: Epidermis vs. Dermis</h3>
+                    <p class="text-sm">The <strong>Epidermis</strong> is like the fake relationship contract Lara Jean and Peter make, because it is a protective outer layer with strict rules that keeps people out (waterproof and avascular). The <strong>Dermis</strong> is the real relationship underneath where all the true feelings, blood vessels, and nerve endings actually live.</p>
+                </div>
+
+                <h3 class="text-xl font-bold text-gray-800 mb-2 border-b pb-1">Skin Regions and Barriers</h3>
+                <ul class="list-disc pl-5 space-y-2 text-sm mb-6 text-gray-700">
+                    <li><strong>Epidermis:</strong> outer layer, keratinized, avascular (no blood). Made mostly of keratinocytes.</li>
+                    <li><strong>Dermis:</strong> dense connective tissue, vascular (has blood). Red coloring comes from hemoglobin.</li>
+                    <li><strong>Chemical Barriers:</strong> skin secretions, melanin. Dermcidin in sweat and bactericidal in sebum kill bacteria. Wounds release cathelicidin.</li>
+                    <li><strong>Physical Barriers:</strong> Stratum corneum (bricks and mortar).</li>
+                    <li><strong>Biological Barriers:</strong> Dendritic cells, macrophages, and DNA.</li>
+                </ul>
+
+                <h3 class="text-xl font-bold text-gray-800 mb-2 border-b pb-1">Skin Alterations</h3>
+                <ul class="list-disc pl-5 space-y-1 text-sm mb-6 text-gray-700">
+                    <li><strong>Erythema (Redness):</strong> embarrassment, fever, inflammation.</li>
+                    <li><strong>Pallor (Blanching):</strong> fear, anemia, low blood pressure.</li>
+                    <li><strong>Jaundice (Yellowing):</strong> liver disorder.</li>
+                    <li><strong>Bronzing:</strong> Addison's disease.</li>
+                    <li><strong>Bruises:</strong> hematoma.</li>
+                </ul>
+
+                <h3 class="text-xl font-bold text-gray-800 mb-2 border-b pb-1">Hair and Glands</h3>
+                <ul class="list-disc pl-5 space-y-2 text-sm text-gray-700">
+                    <li><strong>Hair Anatomy:</strong> Central Medulla (large cells/air spaces), Cortex (surrounds medulla), Cuticle (outside layer, heavily keratinized). Grows in the matrix of the hair bulb in stratum basale.</li>
+                    <li><strong>Associated Hair Structures:</strong> Hair follicle, Hair Papilla (supplies nutrients), Arrector Pili Muscle (pulls hair upright when cold).</li>
+                    <li><strong>Hair Types/Issues:</strong> Vellus hair vs Terminal hair. Hirsutism (excessive hairiness), Alopecia (thinning), Frank Baldness.</li>
+                    <li><strong>Sebaceous (Oil) Glands:</strong> produce sebum. Imbalances cause whiteheads, blackheads, acne (staphylococcus), and seborrhea (cradle cap).</li>
+                    <li><strong>Sudoriferous (Sweat) Glands:</strong> Eccrine (palms, soles, forehead - clear sweat) and Apocrine (axillary/anogenital - milky sweat with fatty acids and proteins, activates at puberty).</li>
+                    <li><strong>Melanoma ABCD Rule:</strong> Asymmetry, Border irregularity, Color, Diameter (larger than 6mm).</li>
+                </ul>
+            </div>
+
+            <!-- TAB 4: SKELETAL -->
+            <div id="skeletal" class="tab-content">
+                <div class="bg-pink-50 p-4 rounded-lg border border-pink-200 mb-6 shadow-sm">
+                    <h3 class="font-bold text-pink-600 mb-2 flex items-center">🧁 Cram Concept: Bone Cells</h3>
+                    <p class="text-sm"><strong>Osteoblasts</strong> are like Lara Jean baking a new batch of cupcakes from scratch because they build things up, while <strong>Osteoclasts</strong> are like Kitty sneaking in to eat or smash the cupcakes because they break things down.</p>
+                </div>
+
+                <h3 class="text-xl font-bold text-gray-800 mb-2 border-b pb-1">Bones of the Human Body (206 Bones)</h3>
+                <ul class="list-disc pl-5 space-y-2 text-sm mb-6 text-gray-700">
+                    <li><strong>Long Bones:</strong> longer than wide, compact bone (e.g. Femur - heaviest/strongest, Tibia - medial shinbone, Fibula - lateral stick-like, Humerus, Ulna - medial/mahaba, Radius - lateral/maikli).</li>
+                    <li><strong>Short Bones:</strong> cube-shaped, spongy bone (Carpals - 8 wrist bones, Tarsals - 7 ankle bones).</li>
+                    <li><strong>Flat Bones:</strong> thin, curved (Cranium bones - Frontal, Parietal, Occipital, Temporal, Sphenoid, Ethmoid).</li>
+                    <li><strong>Irregular Bones:</strong> (Sphenoid, Vertebrae).</li>
+                    <li><strong>Sesamoid Bones:</strong> (Patella).</li>
+                </ul>
+
+                <h3 class="text-xl font-bold text-gray-800 mb-2 border-b pb-1">Bone Growth and Healing</h3>
+                <ul class="list-disc pl-5 space-y-2 text-sm mb-6 text-gray-700">
+                    <li><strong>Bone Ossification:</strong> Intramembranous (osteoblasts produce bone) and Endochondral (developed from cartilage).</li>
+                    <li><strong>Bone Growth:</strong> Appositional (growth in width) and Interstitial (grows from within).</li>
+                    <li><strong>Repair of Fractures (6 to 8 weeks):</strong> 1. Hematoma formed, 2. Fibrocartilage callus formed, 3. Bony callus replaces fibrocartilage, 4. Bone remodeling occurs.</li>
+                    <li><strong>Fracture Types:</strong> Closed (simple), Open (compound), Transverse, Oblique, Spiral, Comminuted (many small pieces), Impacted, Greenstick (incomplete break).</li>
+                </ul>
+
+                <h3 class="text-xl font-bold text-gray-800 mb-2 border-b pb-1">Joints and Disorders</h3>
+                <ul class="list-disc pl-5 space-y-2 text-sm text-gray-700">
+                    <li><strong>Synovial Joints:</strong> have articular cartilage, articular capsule, joint cavity, reinforcing ligaments. Includes Bursae and Tendon Sheaths. Types include Plane, Hinge, Pivot, Condylar, Saddle, Ball-and-socket.</li>
+                    <li><strong>Disorders:</strong> Giantism, Dwarfism, Osteogenesis Imperfecta (brittle/no collagen), Rickettsia (soft bones), Osteomyelitis (bacterial inflammation), Osteomalacia (decalcifications), Osteoporosis.</li>
+                    <li><strong>Spinal Curves:</strong> Kyphosis (hunchback), Lordosis (anterior curve), Scoliosis (S curve).</li>
+                </ul>
+            </div>
+
+            <!-- TAB 5: MEDICAL TERMS -->
+            <div id="medical" class="tab-content">
+                <div class="bg-pink-50 p-4 rounded-lg border border-pink-200 mb-6 shadow-sm">
+                    <h3 class="font-bold text-pink-600 mb-2 flex items-center">🎀 Cram Concept: Surgical Suffixes</h3>
+                    <p class="text-sm"><strong>-ectomy</strong> means to cut it out and remove it completely, just like taking Gen's scrunchie back so she can never wear it again. <strong>-oscopy</strong> is just looking at something with a camera, like reading an old love letter without actually throwing it away.</p>
+                </div>
+
+                <h3 class="text-xl font-bold text-gray-800 mb-2 border-b pb-1">General Medical Roots and Terms</h3>
+                <ul class="list-disc pl-5 space-y-2 text-sm mb-6 text-gray-700">
+                    <li><strong>Organs:</strong> Cardio (heart), Hepato (liver), Nephro (kidney), Chole (gallbladder), Spleen, Pancreas, Small Intestine (duodenum, jejunum, ileum), Rectum, Anal/Anus.</li>
+                    <li><strong>Body Parts:</strong> Cephalo (head), Cranium (skull), Optha/Oculo (eyes), Periorbital (around eyes), Auricular/Oto (ears), Nasal/Rhino (nose), Oris/Labia (lips), Oro/Oral (mouth), Buccal (cheeks), Lingual (tongue), Sublingual (under tongue), Mandible (jaw), Mental (chin).</li>
+                    <li><strong>Limbs/Regions:</strong> Brachial (arm), Antebrachial (forearm), Carpus/Carpal (wrist), Tarsal (foot bone), Femoral (thighs), Patella/Genu (knee), Popliteal (back of knee), Crus (leg), Pedal (foot), Calcaneal (heel), Olcranal (elbow), Pelvis (hips), Perineum/Inguinal (groin), Gluteal (buttocks), Navel/Umbilical, Sternum.</li>
+                    <li><strong>States/Conditions:</strong> Dolor (pain), Rigor (stiffening after death), Livor (discoloration after death), Algor (decreased temp after death), Emesis (vomiting), Atrophy (decrease in size), Rhythm (rhythmia), Paralysis.</li>
+                    <li><strong>Colors:</strong> Pallor (pale), Rubor (red), Cyanotic (blue/purple), Gangrene (black/dead), Jaundice (yellow), Leuko (white).</li>
+                </ul>
+
+                <h3 class="text-xl font-bold text-gray-800 mb-2 border-b pb-1">Patient Positions</h3>
+                <ul class="list-disc pl-5 space-y-1 text-sm mb-6 text-gray-700">
+                    <li><strong>Fowlers:</strong> mid sitting 45 degrees. <strong>Semi-Fowlers:</strong> 30 degrees. <strong>High-Fowlers:</strong> 90 degrees.</li>
+                    <li><strong>Trendelenburg:</strong> head lower than feet. <strong>Reversed:</strong> head higher than feet.</li>
+                    <li><strong>Sims:</strong> lateral lying with one leg flexed at 90 degrees.</li>
+                    <li><strong>Orthopneic:</strong> sitting with head reclining on a bedside table.</li>
+                    <li><strong>Dorsal Recumbent:</strong> lying on back with legs raised on a bed.</li>
+                    <li><strong>Lithotomy:</strong> lying on back with legs raised on stirrups.</li>
+                    <li><strong>Jack Knife:</strong> face downwards with hips protruded back exposing anus.</li>
+                </ul>
+
+                <h3 class="text-xl font-bold text-gray-800 mb-2 border-b pb-1">Surgical Procedures</h3>
+                <ul class="list-disc pl-5 space-y-1 text-sm mb-6 text-gray-700">
+                    <li><strong>Anastomosis:</strong> connecting two tubular structures.</li>
+                    <li><strong>Craniotomy / Craniectomy:</strong> opening skull / removal of skull.</li>
+                    <li><strong>TAHBSO:</strong> Total Abdominal Hysterectomy with Bilateral Salpingo-Oophorectomy (removal of all reproductive organs).</li>
+                    <li><strong>TAH:</strong> Total Abdominal Hysterectomy (uterus only).</li>
+                    <li><strong>Myomectomy:</strong> removal of myoma.</li>
+                    <li><strong>Wound Debridement:</strong> cleansing a wound.</li>
+                    <li><strong>Thoracentesis / Paracentesis:</strong> removal of fluid in lungs / abdomen.</li>
+                    <li><strong>ORIF:</strong> Open Reduction Internal Fixation (repairing fractured bone with titanium plates).</li>
+                    <li><strong>Pneumonectomy / Colostomy:</strong> removal of lungs / opening in abdomen.</li>
+                </ul>
+                
+                <div class="mt-8 text-center text-pink-500 font-bold italic">
+                    goodluck have fun babes!
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active-tab");
+            }
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active-tab");
+        }
+    </script>
+</body>
+</html>
