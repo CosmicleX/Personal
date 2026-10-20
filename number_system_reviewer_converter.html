@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base Converter & Reviewer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Variables for easy theming and readability */
+        :root {
+            --bg-body: #0f172a;        /* slate-900 */
+            --bg-card: #1e293b;        /* slate-800 */
+            --bg-input: #334155;       /* slate-700 */
+            --border-color: #475569;   /* slate-600 */
+            --text-main: #f8fafc;      /* slate-50 */
+            --text-muted: #94a3b8;     /* slate-400 */
+            
+            --accent-primary: #3b82f6;   /* blue-500 */
+            --accent-hover: #2563eb;     /* blue-600 */
+            --accent-focus: rgba(59, 130, 246, 0.5);
+            
+            --status-success: #22c55e; /* green-500 */
+            --status-error: #ef4444;   /* red-500 */
+            --status-warning: #eab308; /* yellow-500 */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Custom utility classes utilizing variables */
+        .glass-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
+        }
+
+        .custom-input {
+            background-color: var(--bg-input);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .custom-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-focus);
+        }
+
+        .btn-primary {
+            background-color: var(--accent-primary);
+            color: white;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--bg-input);
+        }
+
+        /* Number font for better digit readability */
+        .mono-num {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <div class="max-w-5xl mx-auto w-full space-y-8 flex-grow">
+        
+        <!-- Header -->
+        <header class="text-center space-y-2">
+            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">
+                Number System Mastery
+            </h1>
+            <p class="text-[var(--text-muted)] max-w-2xl mx-auto">
+                Master Decimal, Binary, Octal, and Hexadecimal conversions. Use the live converter to test values, and the reviewer to test your skills.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- SECTION 1: LIVE CONVERTER -->
+            <section class="glass-card rounded-2xl p-6 sm:p-8">
+                <div class="flex items-center gap-3 mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                    </svg>
+                    <h2 class="text-2xl font-semibold">Live Converter</h2>
+                </div>
+                <p class="text-sm text-[var(--text-muted)] mb-6">Type in any field to instantly convert to the other bases.</p>
+
+                <div class="space-y-4">
+                    <!-- Decimal Input -->
+                    <div>
+                        <label for="conv-dec" class="block text-sm font-medium mb-1 text-gray-300">Decimal (Base 10)</label>
+                        <input type="text" id="conv-dec" data-base="10" 
+                            class="custom-input mono-num w-full rounded-lg px-4 py-3 text-lg" 
+                            placeholder="e.g. 171" autocomplete="off">
+                    </div>
+                    
+                    <!-- Binary Input -->
+                    <div>
+                        <label for="conv-bin" class="block text-sm font-medium mb-1 text-gray-300">Binary (Base 2)</label>
+                        <input type="text" id="conv-bin" data-base="2" 
+                            class="custom-input mono-num w-full rounded-lg px-4 py-3 text-lg" 
+                            placeholder="e.g. 10101011" autocomplete="off">
+                    </div>
+
+                    <!-- Octal Input -->
+                    <div>
+                        <label for="conv-oct" class="block text-sm font-medium mb-1 text-gray-300">Octal (Base 8)</label>
+                        <input type="text" id="conv-oct" data-base="8" 
+                            class="custom-input mono-num w-full rounded-lg px-4 py-3 text-lg" 
+                            placeholder="e.g. 253" autocomplete="off">
+                    </div>
+
+                    <!-- Hexadecimal Input -->
+                    <div>
+                        <label for="conv-hex" class="block text-sm font-medium mb-1 text-gray-300">Hexadecimal (Base 16)</label>
+                        <input type="text" id="conv-hex" data-base="16" 
+                            class="custom-input mono-num w-full rounded-lg px-4 py-3 text-lg uppercase" 
+                            placeholder="e.g. AB" autocomplete="off">
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: QUIZ / REVIEWER -->
+            <section class="glass-card rounded-2xl p-6 sm:p-8 flex flex-col">
+                <div class="flex items-center gap-3 mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                    </svg>
+                    <h2 class="text-2xl font-semibold">Knowledge Reviewer</h2>
+                </div>
+                
+                <div class="flex-grow flex flex-col justify-center">
+                    <!-- Question Display -->
+                    <div class="bg-[var(--bg-input)] rounded-xl p-6 mb-6 text-center border border-[var(--border-color)]">
+                        <p class="text-[var(--text-muted)] text-sm uppercase tracking-wider font-semibold mb-2">Convert</p>
+                        <div class="text-3xl sm:text-4xl font-bold mb-2 mono-num text-white break-all" id="quiz-question-val">---</div>
+                        <div class="flex items-center justify-center gap-2 text-lg">
+                            <span class="text-blue-300" id="quiz-from-base">Base</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mx-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                            <span class="text-purple-300" id="quiz-to-base">Base</span>
+                        </div>
+                    </div>
+
+                    <!-- Answer Input -->
+                    <div class="mb-4">
+                        <label for="quiz-answer" class="block text-sm font-medium mb-2 text-gray-300">Your Answer:</label>
+                        <input type="text" id="quiz-answer" 
+                            class="custom-input mono-num w-full rounded-lg px-4 py-3 text-xl text-center uppercase" 
+                            placeholder="Type here..." autocomplete="off">
+                    </div>
+
+                    <!-- Feedback Box -->
+                    <div id="quiz-feedback" class="hidden rounded-lg p-4 mb-4 text-center font-medium transition-all">
+                        <!-- Content injected via JS -->
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="grid grid-cols-2 gap-4 mt-auto">
+                        <button id="btn-check" class="btn-primary rounded-lg py-3 font-semibold text-lg shadow-lg">
+                            Check Answer
+                        </button>
+                        <button id="btn-next" class="btn-secondary rounded-lg py-3 font-semibold text-lg">
+                            Next Question
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        
+        <!-- Shortcuts Quick Reference -->
+        <section class="glass-card rounded-2xl p-6 mt-8 border-t-4 border-t-indigo-500">
+            <h3 class="text-xl font-bold mb-4">Quick Conversion Shortcuts</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm">
+                <div>
+                    <h4 class="font-semibold text-blue-300 mb-2">Binary ↔ Hexadecimal</h4>
+                    <p class="text-[var(--text-muted)]">Group binary bits into sets of <strong>4</strong> (starting from right). Each group equals one Hex digit (8-4-2-1 rule).</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-purple-300 mb-2">Binary ↔ Octal</h4>
+                    <p class="text-[var(--text-muted)]">Group binary bits into sets of <strong>3</strong> (starting from right). Each group equals one Octal digit (4-2-1 rule).</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-green-300 mb-2">Hexadecimal ↔ Octal</h4>
+                    <p class="text-[var(--text-muted)]">Never go through Decimal! Convert to <strong>Binary first</strong> as a bridge, regroup the bits (by 3s or 4s), and convert to the target base.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPREHENSIVE NOTES AND STEP-BY-STEP EXAMPLES -->
+        <div class="mt-12 space-y-4">
+            <h2 class="text-3xl font-bold mb-6 text-center">Comprehensive Conversion Guide & Examples</h2>
+            
+            <!-- Category 1: Decimal to Others -->
+            <details class="glass-card rounded-2xl group">
+                <summary class="p-6 text-xl font-bold cursor-pointer flex justify-between items-center list-none [&::-webkit-details-marker]:hidden border-l-4 border-l-blue-500 rounded-2xl">
+                    <span>1. Decimal to Other Bases (Successive Division)</span>
+                    <svg class="w-6 h-6 transform group-open:rotate-180 transition-transform text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="p-6 border-t border-[var(--border-color)] space-y-8">
+                    
+                    <!-- Decimal to Binary -->
+                    <div>
+                        <h4 class="text-lg font-semibold text-blue-300 mb-2">Decimal to Binary (Base 10 → Base 2)</h4>
+                        <p class="text-sm text-[var(--text-muted)] mb-4">Divide the decimal number by 2. Record the remainder. Continue dividing the quotient by 2 until it reaches 0. Read remainders from bottom to top.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 1: Convert 45₁₀</div>
+                                45 ÷ 2 = 22 &nbsp; R 1 &nbsp; ↑ (read up)<br>
+                                22 ÷ 2 = 11 &nbsp; R 0 &nbsp; |<br>
+                                11 ÷ 2 = 5 &nbsp;&nbsp; R 1 &nbsp; |<br>
+                                5 &nbsp;÷ 2 = 2 &nbsp;&nbsp; R 1 &nbsp; |<br>
+                                2 &nbsp;÷ 2 = 1 &nbsp;&nbsp; R 0 &nbsp; |<br>
+                                1 &nbsp;÷ 2 = 0 &nbsp;&nbsp; R 1 &nbsp; |<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 101101₂</div>
+                            </div>
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 2: Convert 156₁₀</div>
+                                156 ÷ 2 = 78 &nbsp; R 0 &nbsp; ↑<br>
+                                78 &nbsp;÷ 2 = 39 &nbsp; R 0 &nbsp; |<br>
+                                39 &nbsp;÷ 2 = 19 &nbsp; R 1 &nbsp; |<br>
+                                19 &nbsp;÷ 2 = 9 &nbsp;&nbsp; R 1 &nbsp; |<br>
+                                9 &nbsp;&nbsp;÷ 2 = 4 &nbsp;&nbsp; R 1 &nbsp; |<br>
+                                4 &nbsp;&nbsp;÷ 2 = 2 &nbsp;&nbsp; R 0 &nbsp; |<br>
+                                2 &nbsp;&nbsp;÷ 2 = 1 &nbsp;&nbsp; R 0 &nbsp; |<br>
+                                1 &nbsp;&nbsp;÷ 2 = 0 &nbsp;&nbsp; R 1 &nbsp; |<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 10011100₂</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Decimal to Octal -->
+                    <div>
+                        <h4 class="text-lg font-semibold text-blue-300 mb-2">Decimal to Octal (Base 10 → Base 8)</h4>
+                        <p class="text-sm text-[var(--text-muted)] mb-4">Divide by 8. Record the remainder. Read remainders bottom to top.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 1: Convert 156₁₀</div>
+                                156 ÷ 8 = 19 &nbsp; R 4 &nbsp; ↑<br>
+                                19 &nbsp;÷ 8 = 2 &nbsp;&nbsp; R 3 &nbsp; |<br>
+                                2 &nbsp;&nbsp;÷ 8 = 0 &nbsp;&nbsp; R 2 &nbsp; |<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 234₈</div>
+                            </div>
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 2: Convert 400₁₀</div>
+                                400 ÷ 8 = 50 &nbsp; R 0 &nbsp; ↑<br>
+                                50 &nbsp;÷ 8 = 6 &nbsp;&nbsp; R 2 &nbsp; |<br>
+                                6 &nbsp;&nbsp;÷ 8 = 0 &nbsp;&nbsp; R 6 &nbsp; |<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 620₈</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Decimal to Hexadecimal -->
+                    <div>
+                        <h4 class="text-lg font-semibold text-blue-300 mb-2">Decimal to Hexadecimal (Base 10 → Base 16)</h4>
+                        <p class="text-sm text-[var(--text-muted)] mb-4">Divide by 16. Record the remainder (Convert 10-15 to A-F). Read bottom to top.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 1: Convert 254₁₀</div>
+                                254 ÷ 16 = 15 &nbsp; R 14 (E) ↑<br>
+                                15 &nbsp;÷ 16 = 0 &nbsp;&nbsp; R 15 (F) |<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: FE₁₆</div>
+                            </div>
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 2: Convert 419₁₀</div>
+                                419 ÷ 16 = 26 &nbsp; R 3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑<br>
+                                26 &nbsp;÷ 16 = 1 &nbsp;&nbsp; R 10 (A) |<br>
+                                1 &nbsp;&nbsp;÷ 16 = 0 &nbsp;&nbsp; R 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 1A3₁₆</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </details>
+
+            <!-- Category 2: Others to Decimal -->
+            <details class="glass-card rounded-2xl group">
+                <summary class="p-6 text-xl font-bold cursor-pointer flex justify-between items-center list-none [&::-webkit-details-marker]:hidden border-l-4 border-l-purple-500 rounded-2xl">
+                    <span>2. Other Bases to Decimal (Positional Expansion)</span>
+                    <svg class="w-6 h-6 transform group-open:rotate-180 transition-transform text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="p-6 border-t border-[var(--border-color)] space-y-8">
+                    
+                    <!-- Binary to Decimal -->
+                    <div>
+                        <h4 class="text-lg font-semibold text-purple-300 mb-2">Binary to Decimal (Base 2 → Base 10)</h4>
+                        <p class="text-sm text-[var(--text-muted)] mb-4">Multiply each bit by 2 raised to its position index (starting from 0 on the far right), or simply add up the powers of 2 (128, 64, 32, 16, 8, 4, 2, 1) where a '1' exists.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 1: Convert 10110₂</div>
+                                Bits: &nbsp;&nbsp;&nbsp;1 &nbsp;&nbsp;0 &nbsp;&nbsp;1 &nbsp;&nbsp;1 &nbsp;&nbsp;0<br>
+                                Weights: 16 &nbsp; 8 &nbsp; 4 &nbsp; 2 &nbsp; 1<br>
+                                Math: &nbsp;&nbsp;&nbsp;16 + 0 + 4 + 2 + 0<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 22₁₀</div>
+                            </div>
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 2: Convert 1101101₂</div>
+                                Bits: &nbsp;&nbsp;&nbsp;1 &nbsp;&nbsp;1 &nbsp;&nbsp;0 &nbsp;&nbsp;1 &nbsp;&nbsp;1 &nbsp;&nbsp;0 &nbsp;&nbsp;1<br>
+                                Weights: 64 &nbsp;32 &nbsp;16 &nbsp; 8 &nbsp; 4 &nbsp; 2 &nbsp; 1<br>
+                                Math: &nbsp;&nbsp;&nbsp;64 +32 + 0 + 8 + 4 + 0 + 1<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 109₁₀</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Octal to Decimal -->
+                    <div>
+                        <h4 class="text-lg font-semibold text-purple-300 mb-2">Octal to Decimal (Base 8 → Base 10)</h4>
+                        <p class="text-sm text-[var(--text-muted)] mb-4">Multiply each digit by 8 raised to its position (..., 64, 8, 1).</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 1: Convert 45₈</div>
+                                Math: (4 × 8¹) + (5 × 8⁰)<br>
+                                Math: (4 × 8)  + (5 × 1)<br>
+                                Math: 32 + 5<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 37₁₀</div>
+                            </div>
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 2: Convert 317₈</div>
+                                Math: (3 × 8²) + (1 × 8¹) + (7 × 8⁰)<br>
+                                Math: (3 × 64) + (1 × 8)  + (7 × 1)<br>
+                                Math: 192 + 8 + 7<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 207₁₀</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hexadecimal to Decimal -->
+                    <div>
+                        <h4 class="text-lg font-semibold text-purple-300 mb-2">Hexadecimal to Decimal (Base 16 → Base 10)</h4>
+                        <p class="text-sm text-[var(--text-muted)] mb-4">Multiply each digit by 16 raised to its position (..., 256, 16, 1). Remember A=10, B=11, C=12, D=13, E=14, F=15.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 1: Convert 2A₁₆</div>
+                                Math: (2 × 16¹) + (A × 16⁰)<br>
+                                Math: (2 × 16)  + (10 × 1)<br>
+                                Math: 32 + 10<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 42₁₀</div>
+                            </div>
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 2: Convert 1F4₁₆</div>
+                                Math: (1 × 16²)  + (F × 16¹) + (4 × 16⁰)<br>
+                                Math: (1 × 256)  + (15 × 16) + (4 × 1)<br>
+                                Math: 256 + 240 + 4<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 500₁₀</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </details>
+
+            <!-- Category 3: Binary and Octal -->
+            <details class="glass-card rounded-2xl group">
+                <summary class="p-6 text-xl font-bold cursor-pointer flex justify-between items-center list-none [&::-webkit-details-marker]:hidden border-l-4 border-l-green-500 rounded-2xl">
+                    <span>3. Binary ↔ Octal (The 3-Bit Grouping Method)</span>
+                    <svg class="w-6 h-6 transform group-open:rotate-180 transition-transform text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="p-6 border-t border-[var(--border-color)] space-y-8">
+                    
+                    <!-- Binary to Octal -->
+                    <div>
+                        <h4 class="text-lg font-semibold text-green-300 mb-2">Binary to Octal (Base 2 → Base 8)</h4>
+                        <p class="text-sm text-[var(--text-muted)] mb-4">Group the bits into sets of 3, starting from the right. Pad with leading zeros if needed. Convert each 3-bit group to its Octal value (using 4-2-1 rule).</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 1: Convert 110101₂</div>
+                                1. Group by 3: &nbsp;&nbsp;(110) (101)<br>
+                                2. Apply 4-2-1: &nbsp;&nbsp;&nbsp;6 &nbsp;&nbsp;&nbsp;&nbsp;5<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 65₈</div>
+                            </div>
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 2: Convert 1011100₂</div>
+                                1. Pad w/ zeros: (001) (011) (100)<br>
+                                2. Apply 4-2-1: &nbsp;&nbsp;&nbsp;1 &nbsp;&nbsp;&nbsp;&nbsp;3 &nbsp;&nbsp;&nbsp;&nbsp;4<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 134₈</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Octal to Binary -->
+                    <div>
+                        <h4 class="text-lg font-semibold text-green-300 mb-2">Octal to Binary (Base 8 → Base 2)</h4>
+                        <p class="text-sm text-[var(--text-muted)] mb-4">Convert each single Octal digit into exactly 3 binary bits.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 1: Convert 72₈</div>
+                                1. Split digits: &nbsp;&nbsp;&nbsp;&nbsp;7 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2<br>
+                                2. To 3-bit Binary: (111) (010)<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 111010₂</div>
+                            </div>
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 2: Convert 305₈</div>
+                                1. Split digits: &nbsp;&nbsp;&nbsp;&nbsp;3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5<br>
+                                2. To 3-bit Binary: (011) (000) (101)<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 011000101₂ (or 11000101₂)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </details>
+
+            <!-- Category 4: Binary and Hexadecimal -->
+            <details class="glass-card rounded-2xl group">
+                <summary class="p-6 text-xl font-bold cursor-pointer flex justify-between items-center list-none [&::-webkit-details-marker]:hidden border-l-4 border-l-pink-500 rounded-2xl">
+                    <span>4. Binary ↔ Hexadecimal (The 4-Bit Grouping Method)</span>
+                    <svg class="w-6 h-6 transform group-open:rotate-180 transition-transform text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="p-6 border-t border-[var(--border-color)] space-y-8">
+                    
+                    <!-- Binary to Hex -->
+                    <div>
+                        <h4 class="text-lg font-semibold text-pink-300 mb-2">Binary to Hexadecimal (Base 2 → Base 16)</h4>
+                        <p class="text-sm text-[var(--text-muted)] mb-4">Group bits by 4 from the right. Apply the 8-4-2-1 rule to get values from 0-15 (Convert 10-15 to A-F).</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 1: Convert 11010110₂</div>
+                                1. Group by 4: &nbsp;(1101) &nbsp;(0110)<br>
+                                2. Apply 8-4-2-1: 13(D) &nbsp;&nbsp;6<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: D6₁₆</div>
+                            </div>
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 2: Convert 1011011₂</div>
+                                1. Pad w/ zeros: &nbsp;(0101) &nbsp;(1011)<br>
+                                2. Apply 8-4-2-1: &nbsp;5 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11(B)<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 5B₁₆</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hex to Binary -->
+                    <div>
+                        <h4 class="text-lg font-semibold text-pink-300 mb-2">Hexadecimal to Binary (Base 16 → Base 2)</h4>
+                        <p class="text-sm text-[var(--text-muted)] mb-4">Convert each single Hex digit into exactly 4 binary bits.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 1: Convert C4₁₆</div>
+                                1. Split digits: &nbsp;&nbsp;C (12) &nbsp;&nbsp;&nbsp;4<br>
+                                2. To 4-bit Binary: (1100) &nbsp;&nbsp;(0100)<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 11000100₂</div>
+                            </div>
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 2: Convert 2F9₁₆</div>
+                                1. Split digits: &nbsp;&nbsp;2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F(15) &nbsp;&nbsp;9<br>
+                                2. To 4-bit Binary: (0010) &nbsp;(1111) &nbsp;(1001)<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 001011111001₂ (or 1011111001₂)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </details>
+
+            <!-- Category 5: Octal and Hexadecimal via Binary Bridge -->
+            <details class="glass-card rounded-2xl group mb-12">
+                <summary class="p-6 text-xl font-bold cursor-pointer flex justify-between items-center list-none [&::-webkit-details-marker]:hidden border-l-4 border-l-yellow-500 rounded-2xl">
+                    <span>5. Octal ↔ Hexadecimal (The Binary Bridge)</span>
+                    <svg class="w-6 h-6 transform group-open:rotate-180 transition-transform text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="p-6 border-t border-[var(--border-color)] space-y-8">
+                    
+                    <!-- Octal to Hex -->
+                    <div>
+                        <h4 class="text-lg font-semibold text-yellow-300 mb-2">Octal to Hexadecimal (Base 8 → Base 16)</h4>
+                        <p class="text-sm text-[var(--text-muted)] mb-4">Step 1: Convert Octal to Binary (3 bits per digit). Step 2: Regroup the Binary bits into 4s. Step 3: Convert 4-bit groups to Hex.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 1: Convert 56₈</div>
+                                1. Octal to Bin: 5(101) 6(110) → 101110₂<br>
+                                2. Regroup by 4: (0010) (1110)<br>
+                                3. Bin to Hex: &nbsp;&nbsp;&nbsp;2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E(14)<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 2E₁₆</div>
+                            </div>
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 2: Convert 374₈</div>
+                                1. Oct to Bin: 3(011) 7(111) 4(100)<br>
+                                2. Regroup by 4: (0000) (1111) (1100)<br>
+                                3. Bin to Hex: &nbsp;&nbsp;&nbsp;0 &nbsp;&nbsp;&nbsp;&nbsp;F(15) &nbsp;C(12)<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: FC₁₆</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hex to Octal -->
+                    <div>
+                        <h4 class="text-lg font-semibold text-yellow-300 mb-2">Hexadecimal to Octal (Base 16 → Base 8)</h4>
+                        <p class="text-sm text-[var(--text-muted)] mb-4">Step 1: Convert Hex to Binary (4 bits per digit). Step 2: Regroup the Binary bits into 3s. Step 3: Convert 3-bit groups to Octal.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 1: Convert A7₁₆</div>
+                                1. Hex to Bin: A(1010) 7(0111)<br>
+                                2. Regroup by 3: (010) (100) (111)<br>
+                                3. Bin to Octal: &nbsp;2 &nbsp;&nbsp;&nbsp;&nbsp;4 &nbsp;&nbsp;&nbsp;&nbsp;7<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 247₈</div>
+                            </div>
+                            <div class="bg-[var(--bg-input)] p-4 rounded-lg font-mono text-sm leading-relaxed">
+                                <div class="text-white mb-2 border-b border-[var(--border-color)] pb-1">Example 2: Convert 1DB₁₆</div>
+                                1. Hex to Bin: 1(0001) D(1101) B(1011)<br>
+                                2. Regroup by 3: (000) (111) (011) (011)<br>
+                                3. Bin to Octal: &nbsp;0 &nbsp;&nbsp;&nbsp;&nbsp;7 &nbsp;&nbsp;&nbsp;&nbsp;3 &nbsp;&nbsp;&nbsp;&nbsp;3<br>
+                                <div class="text-green-400 mt-2 font-bold">Result: 733₈</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </details>
+
+        </div>
+
+    </div>
+
+    <script>
+        /* =========================================
+           SECTION 1: LIVE CONVERTER LOGIC
+        ========================================= */
+        const inputs = {
+            10: document.getElementById('conv-dec'),
+            2: document.getElementById('conv-bin'),
+            8: document.getElementById('conv-oct'),
+            16: document.getElementById('conv-hex')
+        };
+
+        // Input validation regex patterns based on base
+        const regexMap = {
+            10: /[^0-9]/g,
+            2: /[^01]/g,
+            8: /[^0-7]/g,
+            16: /[^0-9A-Fa-f]/g
+        };
+
+        // Attach event listeners to all converter inputs
+        Object.values(inputs).forEach(input => {
+            input.addEventListener('input', function(e) {
+                const base = parseInt(this.getAttribute('data-base'));
+                
+                // Strip invalid characters immediately
+                let rawValue = this.value;
+                let cursorPosition = this.selectionStart;
+                
+                let cleanedValue = rawValue.replace(regexMap[base], '');
+                if (base === 16) cleanedValue = cleanedValue.toUpperCase();
+                
+                if (rawValue !== cleanedValue) {
+                    this.value = cleanedValue;
+                    // Attempt to restore cursor position roughly
+                    this.setSelectionRange(cursorPosition - 1, cursorPosition - 1);
+                }
+
+                updateOtherFields(base, cleanedValue);
+            });
+        });
+
+        function updateOtherFields(sourceBase, value) {
+            if (value === '') {
+                // Clear all other fields if source is empty
+                Object.keys(inputs).forEach(b => {
+                    if (parseInt(b) !== sourceBase) inputs[b].value = '';
+                });
+                return;
+            }
+
+            // Parse the string into a standard decimal (Base 10) integer
+            const decimalValue = parseInt(value, sourceBase);
+
+            // If valid decimal, convert and update other fields
+            if (!isNaN(decimalValue)) {
+                Object.keys(inputs).forEach(targetBaseStr => {
+                    const targetBase = parseInt(targetBaseStr);
+                    if (targetBase !== sourceBase) {
+                        let converted = decimalValue.toString(targetBase);
+                        if (targetBase === 16) converted = converted.toUpperCase();
+                        inputs[targetBase].value = converted;
+                    }
+                });
+            }
+        }
+
+
+        /* =========================================
+           SECTION 2: QUIZ / REVIEWER LOGIC
+        ========================================= */
+        
+        // Quiz State
+        let currentQuestion = {
+            decimalValue: 0,
+            fromBase: 10,
+            toBase: 2,
+            correctAnswerString: ""
+        };
+
+        const basesList = [2, 8, 10, 16];
+        const baseLabels = {
+            2: "Binary",
+            8: "Octal",
+            10: "Decimal",
+            16: "Hexadecimal"
+        };
+
+        // UI Elements
+        const qValEl = document.getElementById('quiz-question-val');
+        const qFromBaseEl = document.getElementById('quiz-from-base');
+        const qToBaseEl = document.getElementById('quiz-to-base');
+        const ansInputEl = document.getElementById('quiz-answer');
+        const feedbackEl = document.getElementById('quiz-feedback');
+        const btnCheck = document.getElementById('btn-check');
+        const btnNext = document.getElementById('btn-next');
+
+        function generateQuestion() {
+            // Reset UI
+            ansInputEl.value = '';
+            ansInputEl.disabled = false;
+            ansInputEl.focus();
+            hideFeedback();
+
+            // 1. Pick random from and to bases (must be different)
+            let fromIndex = Math.floor(Math.random() * basesList.length);
+            let toIndex;
+            do {
+                toIndex = Math.floor(Math.random() * basesList.length);
+            } while (toIndex === fromIndex);
+
+            currentQuestion.fromBase = basesList[fromIndex];
+            currentQuestion.toBase = basesList[toIndex];
+
+            // 2. Generate random value (Limit to 1 - 255 to keep it reasonable for mental math)
+            // Sometimes throw in a slightly larger number (up to 4095/FFF) for variety
+            let maxVal = Math.random() > 0.8 ? 4095 : 255; 
+            currentQuestion.decimalValue = Math.floor(Math.random() * maxVal) + 1;
+
+            // 3. Calculate string representations
+            let displayString = currentQuestion.decimalValue.toString(currentQuestion.fromBase);
+            if (currentQuestion.fromBase === 16) displayString = displayString.toUpperCase();
+
+            let targetString = currentQuestion.decimalValue.toString(currentQuestion.toBase);
+            if (currentQuestion.toBase === 16) targetString = targetString.toUpperCase();
+            
+            currentQuestion.correctAnswerString = targetString;
+
+            // 4. Update DOM
+            qValEl.textContent = displayString;
+            qFromBaseEl.textContent = `${baseLabels[currentQuestion.fromBase]} (${currentQuestion.fromBase})`;
+            qToBaseEl.textContent = `${baseLabels[currentQuestion.toBase]} (${currentQuestion.toBase})`;
+            
+            // Adjust regex for quiz input to prevent invalid typing
+            ansInputEl.oninput = function() {
+                let cleaned = this.value.replace(regexMap[currentQuestion.toBase], '');
+                if(currentQuestion.toBase === 16) cleaned = cleaned.toUpperCase();
+                this.value = cleaned;
+            };
+        }
+
+        function checkAnswer() {
+            if (ansInputEl.disabled) return; // Prevent multiple checks
+
+            const userAnswer = ansInputEl.value.trim().toUpperCase();
+            
+            if (userAnswer === "") {
+                showFeedback("Please enter an answer before checking.", "warning");
+                return;
+            }
+
+            if (userAnswer === currentQuestion.correctAnswerString) {
+                // Correct
+                showFeedback(`Correct! Awesome job.`, "success");
+                ansInputEl.disabled = true; // Lock input on success
+                
+                // Add a subtle success animation to input
+                ansInputEl.classList.add("border-green-500", "bg-green-900", "bg-opacity-20");
+                setTimeout(() => {
+                    ansInputEl.classList.remove("border-green-500", "bg-green-900", "bg-opacity-20");
+                }, 1500);
+
+            } else {
+                // Incorrect
+                showFeedback(`Incorrect. The correct answer is <strong>${currentQuestion.correctAnswerString}</strong>.`, "error");
+            }
+        }
+
+        function showFeedback(message, type) {
+            feedbackEl.innerHTML = message;
+            feedbackEl.classList.remove('hidden', 'bg-green-900', 'text-green-300', 'bg-red-900', 'text-red-300', 'bg-yellow-900', 'text-yellow-300');
+            
+            if (type === 'success') {
+                feedbackEl.classList.add('bg-green-900', 'text-green-300');
+            } else if (type === 'error') {
+                feedbackEl.classList.add('bg-red-900', 'text-red-300');
+            } else if (type === 'warning') {
+                feedbackEl.classList.add('bg-yellow-900', 'text-yellow-300');
+            }
+            
+            feedbackEl.classList.add('block');
+        }
+
+        function hideFeedback() {
+            feedbackEl.classList.add('hidden');
+            feedbackEl.classList.remove('block');
+        }
+
+        // Event Listeners for Quiz Buttons
+        btnCheck.addEventListener('click', checkAnswer);
+        btnNext.addEventListener('click', generateQuestion);
+
+        // Allow pressing Enter to check answer
+        ansInputEl.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                if (ansInputEl.disabled) {
+                    generateQuestion(); // If already answered, enter moves to next
+                } else {
+                    checkAnswer();
+                }
+            }
+        });
+
+        // Initialize first question on load
+        window.onload = function() {
+            generateQuestion();
+        };
+
+    </script>
+</body>
+</html>
